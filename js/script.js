@@ -2,7 +2,6 @@ const qwerty = document.getElementById('qwerty');
 const phrase = document.querySelector('#phrase ul');
 const overlay = document.getElementById('overlay');
 const start = document.querySelector('.btn__reset');
-const tries = document.querySelectorAll('.tries img');
 
 let missed = 0;
 
@@ -16,15 +15,15 @@ start.addEventListener('click', () => {
 });
 
 qwerty.addEventListener('click', (clicked) => {
-    if(clicked.target.tagName == 'BUTTON') {
+    if(clicked.target.tagName === 'BUTTON') {
         clicked.target.className = 'chosen';
         clicked.target.disabled = true;
-        if(checkLetter(clicked) == null) {
-            missed += 1;
-            for(let i = 0; i < tries.length; i++) {
-                tries[i].src="../images/lostHeart.png";
+        if(checkLetter(clicked.target.textContent) == null) {
+            const tries = document.querySelectorAll('.tries');
+            if(missed > 0) {
+                tries[missed].src = 'images/lostHeart.png';
             }
-
+            missed++;
         } else {
         checkLetter(clicked.target.textContent);
     }
@@ -57,6 +56,19 @@ function checkLetter(letterIn) {
             foundLetter = letterIn;
             letter[i].classList.add('show');
         }
+    }
+}
+
+function checkWin() {
+    let letter = document.querySelectorAll('.letter');
+    let show = document.querySelectorAll('.show');
+
+    if(letter.length === show.length) {
+        overlay.classList.add('win');
+        overlay.style.display = 'flex';
+    } else {
+        overlay.classList.add('lose');
+        overlay.style.display = 'flex';
     }
 }
 
