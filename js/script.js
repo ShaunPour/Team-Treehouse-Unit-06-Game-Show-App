@@ -2,6 +2,7 @@ const qwerty = document.getElementById('qwerty');
 const phrase = document.querySelector('#phrase ul');
 const overlay = document.getElementById('overlay');
 const start = document.querySelector('.btn__reset');
+const tries = document.querySelectorAll('.tries img');
 
 let missed = 0;
 
@@ -15,17 +16,25 @@ start.addEventListener('click', () => {
 });
 
 qwerty.addEventListener('click', (clicked) => {
-    if(clicked.target.tagName === 'BUTTON') {
+    if(clicked.target.tagName == 'BUTTON') {
         clicked.target.className = 'chosen';
         clicked.target.disabled = true;
+        if(checkLetter(clicked) == null) {
+            missed += 1;
+            for(let i = 0; i < tries.length; i++) {
+                tries[i].src="../images/lostHeart.png";
+            }
+
+        } else {
+        checkLetter(clicked.target.textContent);
+    }
     }
 })
 
-function getRandomPhraseAsArray(arr) {
-    let randomNum = Math.floor((Math.random() * phrases.length) + 1);
-    let splitPhrase = arr[randomNum].split('');
-    return splitPhrase;
-}
+const getRandomPhraseAsArray = arr => arr[Math.floor(Math.random() * arr.length)]
+.split('');
+
+
 
 function addPhraseToDisplay(arr) {
     for(let i = 0; i < phraseSplit.length; i++) {
@@ -41,19 +50,15 @@ function addPhraseToDisplay(arr) {
 }
 
 function checkLetter(letterIn) {
-    let letter = document.querySelectorAll('li');
+    let letter = document.querySelectorAll('.letter');
     let foundLetter = null;
-
-    for (i = 0; i < letter.length; i++) {
-        if (letterIn.textContent === foundLetter[i].textContent) {
+    for(let i = 0; i < letter.length; i++) {
+        if(letter[i].textContent === letterIn) {
+            foundLetter = letterIn;
             letter[i].classList.add('show');
-            foundLetter = letterIn.textContent;
-            console.log(letterIn.target);
         }
-    } 
-        return foundLetter;
-
-};
+    }
+}
 
 let phraseSplit = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseSplit);
