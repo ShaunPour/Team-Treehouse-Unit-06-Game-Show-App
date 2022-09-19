@@ -12,6 +12,7 @@ let phrases = ['blue in the face', 'ignorance is bliss', 'knee jerk reaction',
 'a bird in the hand', 'a bite at the cherry'];
 
 start.addEventListener('click', () => {
+    resetGame();
     overlay.style.display = 'none';
 });
 
@@ -34,7 +35,7 @@ const getRandomPhraseAsArray = arr => arr[Math.floor(Math.random() * arr.length)
 
 
 
-function addPhraseToDisplay(arr) {
+function addPhraseToDisplay(phraseSplit) {
     for(let i = 0; i < phraseSplit.length; i++) {
     let phraseItem = document.createElement('li');
     if(phraseSplit[i] === ' ') {
@@ -65,42 +66,29 @@ function checkWin() {
     let win = null;
 
     if(letter.length === show.length) {
-        overlay.classList.add('win');
+        overlay.className = 'win';
         overlay.style.display = 'flex';
         title.innerText = 'You Win!';
         start.innerText = 'Play Again';
         win = true;
-resetGame();
-        missed = 0;
-        // for(let i = 0; i < phraseReset.length; i++) {
-        //     phraseReset[i].remove();
-        // }
-        // phraseSplit(getRandomPhraseAsArray);
-        // addPhraseToDisplay(phraseSplit);
         return win;
     } else if(missed > 4) {
         title.innerText = 'You Lose!';
         start.innerText = 'Play Again';
-        overlay.classList.add('lose');
+        overlay.className = 'lose';
         overlay.style.display = 'flex';
         win = false;
-        resetGame();
-        missed = 0;
-        // for(let i = 0; i < phraseReset.length; i++) {
-        //     phraseReset[i].remove();
-        // }
-        // phraseSplit(getRandomPhraseAsArray);
-        // addPhraseToDisplay(phraseSplit);
         return win;
     }
 }
 
-let phraseSplit = getRandomPhraseAsArray(phrases);
-addPhraseToDisplay(phraseSplit);
-
 function resetGame() {
     let keyboardBtn = document.querySelectorAll('#qwerty .keyrow button');
-    let phraseReset = document.querySelectorAll('#phrase ul li');
+    missed = 0;
+
+    phrase.innerHTML = '';
+    let phraseSplit = getRandomPhraseAsArray(phrases);
+    addPhraseToDisplay(phraseSplit);
 
     for(let i = 0; i < keyboardBtn.length; i++) {
         keyboardBtn[i].classList.remove('chosen');
