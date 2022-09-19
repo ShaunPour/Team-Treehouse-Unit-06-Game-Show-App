@@ -63,8 +63,6 @@ function checkWin() {
     let letter = document.querySelectorAll('.letter');
     let show = document.querySelectorAll('.show');
     let win = null;
-    let keyboardBtn = document.querySelectorAll('#qwerty .keyrow button');
-    let phraseReset = document.querySelectorAll('#phrase ul li');
 
     if(letter.length === show.length) {
         overlay.classList.add('win');
@@ -72,19 +70,13 @@ function checkWin() {
         title.innerText = 'You Win!';
         start.innerText = 'Play Again';
         win = true;
-        for(let i = 0; i < keyboardBtn.length; i++) {
-            keyboardBtn[i].classList.remove('chosen');
-            keyboardBtn[i].disabled = false;
-            for(let j = 0; j < tries.length; j++) {
-            tries[j].src = 'images/liveHeart.png';
-        }
-        }
+resetGame();
         missed = 0;
-        for(let i = 0; i < phraseReset.length; i++) {
-            phraseReset[i].remove();
-        }
-        phraseSplit(getRandomPhraseAsArray);
-        addPhraseToDisplay(phraseSplit);
+        // for(let i = 0; i < phraseReset.length; i++) {
+        //     phraseReset[i].remove();
+        // }
+        // phraseSplit(getRandomPhraseAsArray);
+        // addPhraseToDisplay(phraseSplit);
         return win;
     } else if(missed > 4) {
         title.innerText = 'You Lose!';
@@ -92,22 +84,29 @@ function checkWin() {
         overlay.classList.add('lose');
         overlay.style.display = 'flex';
         win = false;
-        for(let i = 0; i < keyboardBtn.length; i++) {
-            keyboardBtn[i].classList.remove('chosen');
-            keyboardBtn[i].disabled = false;
-            for(let j = 0; j < tries.length; j++) {
-            tries[j].src = 'images/liveHeart.png';
-        }
-        }
+        resetGame();
         missed = 0;
-        for(let i = 0; i < phraseReset.length; i++) {
-            phraseReset[i].remove();
-        }
-        phraseSplit(getRandomPhraseAsArray);
-        addPhraseToDisplay(phraseSplit);
+        // for(let i = 0; i < phraseReset.length; i++) {
+        //     phraseReset[i].remove();
+        // }
+        // phraseSplit(getRandomPhraseAsArray);
+        // addPhraseToDisplay(phraseSplit);
         return win;
     }
 }
 
 let phraseSplit = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseSplit);
+
+function resetGame() {
+    let keyboardBtn = document.querySelectorAll('#qwerty .keyrow button');
+    let phraseReset = document.querySelectorAll('#phrase ul li');
+
+    for(let i = 0; i < keyboardBtn.length; i++) {
+        keyboardBtn[i].classList.remove('chosen');
+        keyboardBtn[i].disabled = false;
+        for(let j = 0; j < tries.length; j++) {
+        tries[j].src = 'images/liveHeart.png';
+    }
+    }
+}
