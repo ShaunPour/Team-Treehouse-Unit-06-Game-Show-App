@@ -19,16 +19,15 @@ qwerty.addEventListener('click', (clicked) => {
         clicked.target.className = 'chosen';
         clicked.target.disabled = true;
         if(checkLetter(clicked.target.textContent) == null) {
-            const tries = document.querySelectorAll('.tries');
-            if(missed > 0) {
-                tries[missed].src = 'images/lostHeart.png';
-            }
+            const tries = document.querySelectorAll('.tries img');
+            tries[missed].src = 'images/lostHeart.png';
             missed++;
         } else {
         checkLetter(clicked.target.textContent);
     }
     }
-})
+    checkWin();
+});
 
 const getRandomPhraseAsArray = arr => arr[Math.floor(Math.random() * arr.length)]
 .split('');
@@ -57,18 +56,24 @@ function checkLetter(letterIn) {
             letter[i].classList.add('show');
         }
     }
+    return foundLetter;
 }
 
 function checkWin() {
     let letter = document.querySelectorAll('.letter');
     let show = document.querySelectorAll('.show');
+    let win = null;
 
     if(letter.length === show.length) {
         overlay.classList.add('win');
         overlay.style.display = 'flex';
+        win = true;
+        return win;
     } else {
         overlay.classList.add('lose');
         overlay.style.display = 'flex';
+        win = false;
+        return win;
     }
 }
 
